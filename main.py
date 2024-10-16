@@ -9,6 +9,7 @@ from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer
 from PyQt5.QtWidgets import *
 from sqlalchemy import false
 
+from database_music import MusicDatabase
 from music import Ui_SimpleMusiPlayer
 
 
@@ -55,6 +56,13 @@ class SimpleMusicPlayer(QMainWindow, Ui_SimpleMusiPlayer):
         self.previouspushButton.clicked.connect(self.previous_song)
         self.stoppushButton.clicked.connect(self.stop_song)
 
+        music = MusicDatabase()
+        MusicDatabase.insert_blob(music, 1, 'Мир Горит', 'Oxxxymiron', 'volume.png', 'oxxxymiron-mir-gorit-mp3.mp3')
+        MusicDatabase.read_blob_data(music, 'Мир Горит')
+        print("Попытка отобразить элемент")
+        self.current_songs.append(music.list_music)
+        self.listWidget.addItem(os.path.basename('Мир Горит'))
+
     def move_slider(self):
         if stopped:
             return
@@ -68,18 +76,23 @@ class SimpleMusicPlayer(QMainWindow, Ui_SimpleMusiPlayer):
 
                 current_time = time.strftime('%H:%M:%S', time.localtime(self.player.position() / 1000))
                 song_duration = time.strftime('%H:%M:%S', time.localtime(self.player.duration() / 1000))
-                self.start_time_label.setText(f"{current_time}")
-                self.end_time_label.setText(f"{song_duration}")
+                #self.start_time_label.setText(f"{current_time}")
+                #self.end_time_label.setText(f"{song_duration}")
 
     def add_songs(self):
         files, _ = QFileDialog.getOpenFileNames(
             self, caption='Add Songs',
             directory=':\\', filter="Supported Files (*.mp3;*.mpeg;*.ogg;*.m4a;*.MP3;*.wma;*.acc;*.amr)"
         )
+
         if files:
             for file in files:
                 self.current_songs.append(file)
                 self.listWidget.addItem(os.path.basename(file))
+
+    def add_song(self, file):
+        self.current_songs.append(file)
+        self.listWidget.addItem(os.path.basename(file))
 
     def open_playlist(self):
         #if(self.listWidget.isEnabled()):

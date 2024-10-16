@@ -1,3 +1,4 @@
+from database_music import MusicDatabase
 from main import SimpleMusicPlayer
 from PyQt5.QtWidgets import QApplication
 import sys
