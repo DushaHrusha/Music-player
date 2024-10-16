@@ -1,11 +1,24 @@
 import os.path
 import time
+from logging import debug
 
-from PyQt5 import QtMultimedia
+from PyQt5 import QtMultimedia, QtGui
 from PyQt5.QtCore import QUrl, QTimer
+from PyQt5.QtGui import QWindow
 from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer
 from PyQt5.QtWidgets import *
+from sqlalchemy import false
+
 from music import Ui_SimpleMusiPlayer
+
+
+class Screen2():
+    def __init__(self):
+        super().__init__()
+        self.window = QWindow()
+        self.setupUi(self)
+
+        self.playlistButton.clicked.connect(self.open_playlist)
 
 
 class SimpleMusicPlayer(QMainWindow, Ui_SimpleMusiPlayer):
@@ -68,6 +81,11 @@ class SimpleMusicPlayer(QMainWindow, Ui_SimpleMusiPlayer):
                 self.current_songs.append(file)
                 self.listWidget.addItem(os.path.basename(file))
 
+    def open_playlist(self):
+        #if(self.listWidget.isEnabled()):
+        self.listWidget.activateWindow()
+        #else:
+
     def play_song(self):
         try:
             global stopped
@@ -80,6 +98,8 @@ class SimpleMusicPlayer(QMainWindow, Ui_SimpleMusiPlayer):
             self.player.setMedia(song_url)
             self.player.play()
             self.move_slider()
+
+            self.photo_music.setPixmap(QtGui.QPixmap("werwe.png"))
         except Exception as e:
             print(f"Play song error: {e}")
 

@@ -429,7 +429,7 @@ selection-color: rgb(66, 66, 66);</string>
      <x>0</x>
      <y>0</y>
      <width>717</width>
-     <height>29</height>
+     <height>24</height>
     </rect>
    </property>
    <property name="font">
@@ -452,7 +452,13 @@ selection-color: rgb(66, 66, 66);</string>
     <property name="title">
      <string>Menu</string>
     </property>
-    <addaction name="actionAdd_Songs"/>
+    <widget class="QMenu" name="menuAdd_Songs">
+     <property name="title">
+      <string>Add Songs</string>
+     </property>
+     <addaction name="separator"/>
+    </widget>
+    <addaction name="menuAdd_Songs"/>
     <addaction name="separator"/>
     <addaction name="actionRemove_Selected"/>
     <addaction name="separator"/>
@@ -460,21 +466,6 @@ selection-color: rgb(66, 66, 66);</string>
    </widget>
    <addaction name="menuMenu"/>
   </widget>
-  <action name="actionAdd_Songs">
-   <property name="icon">
-    <iconset resource="utils/music_res.qrc">
-     <normaloff>:/img/images/Create.png</normaloff>:/img/images/Create.png</iconset>
-   </property>
-   <property name="text">
-    <string>Add Songs</string>
-   </property>
-   <property name="toolTip">
-    <string>Add songs to music player</string>
-   </property>
-   <property name="shortcut">
-    <string>Alt+A</string>
-   </property>
-  </action>
   <action name="actionRemove_Selected">
    <property name="icon">
     <iconset resource="utils/music_res.qrc">
