@@ -9,7 +9,7 @@ from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer
 from PyQt5.QtWidgets import *
 from sqlalchemy import false
 
-from database_music import MusicDatabase
+from database_music import MusicDatabase, MusicContainer
 from music import Ui_SimpleMusiPlayer
 
 
@@ -56,12 +56,8 @@ class SimpleMusicPlayer(QMainWindow, Ui_SimpleMusiPlayer):
         self.previouspushButton.clicked.connect(self.previous_song)
         self.stoppushButton.clicked.connect(self.stop_song)
 
-        music = MusicDatabase()
-        MusicDatabase.insert_blob(music, 1, 'Мир Горит', 'Oxxxymiron', 'volume.png', 'oxxxymiron-mir-gorit-mp3.mp3')
-        MusicDatabase.read_blob_data(music, 'Мир Горит')
-        print("Попытка отобразить элемент")
-        self.current_songs.append(music.list_music)
-        self.listWidget.addItem(os.path.basename('Мир Горит'))
+        self.music = MusicDatabase()
+        self.add_song( self.music.take_name_music())
 
     def move_slider(self):
         if stopped:
@@ -90,9 +86,12 @@ class SimpleMusicPlayer(QMainWindow, Ui_SimpleMusiPlayer):
                 self.current_songs.append(file)
                 self.listWidget.addItem(os.path.basename(file))
 
-    def add_song(self, file):
-        self.current_songs.append(file)
-        self.listWidget.addItem(os.path.basename(file))
+    def add_song(self, files):
+
+        if files:
+            for file in files:
+                self.current_songs.append(file)
+                self.listWidget.addItem(os.path.basename(file))
 
     def open_playlist(self):
         #if(self.listWidget.isEnabled()):
@@ -103,16 +102,21 @@ class SimpleMusicPlayer(QMainWindow, Ui_SimpleMusiPlayer):
         try:
             global stopped
             stopped = False
+            print("____________________________",)
 
             current_selection = self.listWidget.currentRow()
+            print("____________________________", )
             current_song = self.current_songs[current_selection]
+            print("____________________________", current_song)
 
-            song_url = QMediaContent(QUrl.fromLocalFile(current_song))
+            MusicDatabase.read_blob_data(self.music, current_song)
+            print("____________________________",current_song)
+            song_url = QMediaContent(QUrl.fromLocalFile(current_song + ".mp3"))
             self.player.setMedia(song_url)
             self.player.play()
             self.move_slider()
 
-            self.photo_music.setPixmap(QtGui.QPixmap("werwe.png"))
+            self.photo_music.setPixmap(QtGui.QPixmap(current_song + ".png"))
         except Exception as e:
             print(f"Play song error: {e}")
 
