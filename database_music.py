@@ -8,6 +8,7 @@ import sqlite3
 class MusicDatabase:
     def __init__(self):
         self.list_music = ''
+        self.list_musics = []
         self.db = sqlite3.connect('music.db')
         self.cursor = self.db.cursor()
 
@@ -67,8 +68,14 @@ class MusicDatabase:
                 print("Соединение с SQLite закрыто")
 
 
-
-
+    def take_name_musics(self):
+        temp_list = []
+        self.cursor.execute("SELECT name FROM musics")
+        rows = self.cursor.fetchall()
+        for row in rows:
+            temp_list.append(row[0])
+            print(temp_list)
+        return temp_list
 
     def write_to_file(self, data, filename, ):
         # Преобразование двоичных данных в нужный формат
@@ -76,6 +83,7 @@ class MusicDatabase:
             file.write(data)
             self.list_music = filename
         print("Данный из blob сохранены в: ", filename, "\n")
+        return self.list_music
 
     def read_blob_data(self,name):
         try:
@@ -86,16 +94,21 @@ class MusicDatabase:
             cursorDB.execute(sql_fetch_blob_query, (name,))
             record = cursorDB.fetchall()
             for row in record:
+
+
                 print("Id = ", row[0], "NameMusic = ", row[1],  "nameAutor =", row[2])
                 nameMusic  = row[1]
                 photo = row[3]
                 file = row[4]
 
+                self.list_musics.append([row[1], row[2], row[3],row[4]])
+
                 print("Сохранение изображения сотрудника и резюме на диске \n")
                 photo_path = os.path.join(nameMusic + ".png")
                 music_path = os.path.join(nameMusic + ".mp3")
-                MusicDatabase.write_to_file(self, photo, photo_path)
-                MusicDatabase.write_to_file(self, file, music_path)
+                photopng = MusicDatabase.write_to_file(self, photo, photo_path)
+                musicmp3 = MusicDatabase.write_to_file(self, file, music_path)
+                return [music_path,photo_path]
             #cursorDB.close()
 
         except sqlite3.Error as error:
