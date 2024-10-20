@@ -176,7 +176,7 @@ class SimpleMusicPlayer(QMainWindow, Ui_SimpleMusiPlayer):
         try:
             self.current_volume = self.volumeSlider.value()
             self.player.setVolume(self.current_volume)
-            self.volume_label.setText(f"{self.current_volume}")
+            #self.volume_label.setText(f"{self.current_volume}")
         except Exception as e:
             print(f"Changing volume error: {e}")
 

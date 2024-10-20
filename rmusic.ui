@@ -6,191 +6,50 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1602</width>
-    <height>1169</height>
+    <width>979</width>
+    <height>679</height>
    </rect>
   </property>
+  <property name="maximumSize">
+   <size>
+    <width>1000</width>
+    <height>700</height>
+   </size>
+  </property>
+  <property name="sizeIncrement">
+   <size>
+    <width>1000</width>
+    <height>700</height>
+   </size>
+  </property>
   <property name="windowTitle">
-   <string>Simple Music Player</string>
+   <string>Andrew Music Player </string>
   </property>
   <property name="windowIcon">
    <iconset resource="utils/music_res.qrc">
     <normaloff>:/img/images/CD.png</normaloff>:/img/images/CD.png</iconset>
   </property>
+  <property name="layoutDirection">
+   <enum>Qt::LeftToRight</enum>
+  </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QFrame" name="frame_6">
-    <property name="geometry">
-     <rect>
-      <x>370</x>
-      <y>1000</y>
-      <width>358</width>
-      <height>118</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(222, 222, 222);</string>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
-    </property>
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <item>
-      <widget class="QFrame" name="frame_5">
-       <property name="font">
-        <font>
-         <pointsize>1</pointsize>
-        </font>
-       </property>
-       <property name="frameShape">
-        <enum>QFrame::NoFrame</enum>
-       </property>
-       <property name="frameShadow">
-        <enum>QFrame::Raised</enum>
-       </property>
-       <layout class="QHBoxLayout" name="horizontalLayout_4">
-        <property name="leftMargin">
-         <number>0</number>
-        </property>
-        <property name="topMargin">
-         <number>0</number>
-        </property>
-        <property name="rightMargin">
-         <number>0</number>
-        </property>
-        <property name="bottomMargin">
-         <number>0</number>
-        </property>
-        <item>
-         <widget class="QLabel" name="label">
-          <property name="font">
-           <font>
-            <pointsize>12</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Volume:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="volume_label">
-          <property name="font">
-           <font>
-            <pointsize>11</pointsize>
-            <weight>50</weight>
-            <bold>false</bold>
-           </font>
-          </property>
-          <property name="text">
-           <string>50</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSlider" name="volumeSlider">
-          <property name="minimumSize">
-           <size>
-            <width>250</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>250</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="minimum">
-           <number>0</number>
-          </property>
-          <property name="maximum">
-           <number>100</number>
-          </property>
-          <property name="singleStep">
-           <number>1</number>
-          </property>
-          <property name="value">
-           <number>50</number>
-          </property>
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="invertedAppearance">
-           <bool>false</bool>
-          </property>
-          <property name="invertedControls">
-           <bool>false</bool>
-          </property>
-          <property name="tickPosition">
-           <enum>QSlider::TicksBothSides</enum>
-          </property>
-          <property name="tickInterval">
-           <number>10</number>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-     </item>
-     <item>
-      <widget class="QFrame" name="frame_2">
-       <property name="frameShape">
-        <enum>QFrame::NoFrame</enum>
-       </property>
-       <property name="frameShadow">
-        <enum>QFrame::Raised</enum>
-       </property>
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <property name="leftMargin">
-         <number>0</number>
-        </property>
-        <property name="topMargin">
-         <number>0</number>
-        </property>
-        <property name="rightMargin">
-         <number>0</number>
-        </property>
-        <property name="bottomMargin">
-         <number>0</number>
-        </property>
-       </layout>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QLabel" name="label_2">
-    <property name="geometry">
-     <rect>
-      <x>860</x>
-      <y>770</y>
-      <width>801</width>
-      <height>471</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap>C:/Users/hrush/OneDrive/Изображения/GameCenter/LostArk/LostArk_sample.jpg</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-   </widget>
    <widget class="QFrame" name="menuAdd_Songs">
     <property name="geometry">
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>1061</width>
-      <height>636</height>
+      <width>981</width>
+      <height>681</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(56, 56, 56);</string>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout_5">
      <property name="spacing">
@@ -210,6 +69,18 @@
      </property>
      <item>
       <widget class="QListWidget" name="listWidget">
+       <property name="minimumSize">
+        <size>
+         <width>456</width>
+         <height>631</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>456</width>
+         <height>631</height>
+        </size>
+       </property>
        <property name="font">
         <font>
          <pointsize>13</pointsize>
@@ -256,12 +127,21 @@ selection-color: rgb(66, 66, 66);</string>
            <height>400</height>
           </size>
          </property>
+         <property name="sizeIncrement">
+          <size>
+           <width>400</width>
+           <height>400</height>
+          </size>
+         </property>
          <property name="font">
           <font>
            <pointsize>28</pointsize>
           </font>
          </property>
          <property name="tabletTracking">
+          <bool>false</bool>
+         </property>
+         <property name="autoFillBackground">
           <bool>false</bool>
          </property>
          <property name="text">
@@ -271,7 +151,7 @@ selection-color: rgb(66, 66, 66);</string>
           <enum>Qt::AutoText</enum>
          </property>
          <property name="pixmap">
-          <pixmap>C:/Users/hrush/OneDrive/Изображения/GameCenter/AtomicHeart/AtomicHeart_sample.jpg</pixmap>
+          <pixmap resource="utils/music_res.qrc">:/img/images/1679569032_bogatyr-club-p-rasteniya-na-chernom-fone-instagram-3.jpg</pixmap>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -316,15 +196,21 @@ selection-color: rgb(66, 66, 66);</string>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
-            <property name="maximumSize">
+            <property name="minimumSize">
              <size>
               <width>300</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>400</width>
               <height>50</height>
              </size>
             </property>
             <property name="sizeIncrement">
              <size>
-              <width>12</width>
+              <width>0</width>
               <height>0</height>
              </size>
             </property>
@@ -332,20 +218,7 @@ selection-color: rgb(66, 66, 66);</string>
              <cursorShape>PointingHandCursor</cursorShape>
             </property>
             <property name="styleSheet">
-             <string notr="true">QSlider::groove:horizontal {
-    border: 1px solid #999999;
-    height: 8px; /* the groove expands to the size of the slider by default. by giving it a height, it has a fixed size */
-    background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #B1B1B1, stop:1 #c4c4c4);
-    margin: 2px 0;
-}
-
-QSlider::handle:horizontal {
-    background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #b4b4b4, stop:1 #8f8f8f);
-    border: 1px solid #5c5c5c;
-    width: 18px;
-    margin: -2px 0; /* handle is placed by default on the contents rect of the groove. Expand outside the groove */
-    border-radius: 3px;
-}</string>
+             <string notr="true"/>
             </property>
             <property name="tracking">
              <bool>true</bool>
@@ -371,6 +244,9 @@ QSlider::handle:horizontal {
            <width>200</width>
            <height>40</height>
           </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
          </property>
          <property name="frameShape">
           <enum>QFrame::NoFrame</enum>
@@ -497,6 +373,18 @@ QSlider::handle:horizontal {
           </item>
           <item alignment="Qt::AlignHCenter">
            <widget class="QPushButton" name="nextpushButton">
+            <property name="maximumSize">
+             <size>
+              <width>250</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="sizeIncrement">
+             <size>
+              <width>250</width>
+              <height>50</height>
+             </size>
+            </property>
             <property name="cursor">
              <cursorShape>PointingHandCursor</cursorShape>
             </property>
@@ -524,46 +412,62 @@ QSlider::handle:horizontal {
          </layout>
         </widget>
        </item>
+       <item alignment="Qt::AlignHCenter">
+        <widget class="QSlider" name="volumeSlider">
+         <property name="minimumSize">
+          <size>
+           <width>250</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>200</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="sizeIncrement">
+          <size>
+           <width>200</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="minimum">
+          <number>0</number>
+         </property>
+         <property name="maximum">
+          <number>100</number>
+         </property>
+         <property name="singleStep">
+          <number>1</number>
+         </property>
+         <property name="value">
+          <number>50</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="invertedAppearance">
+          <bool>false</bool>
+         </property>
+         <property name="invertedControls">
+          <bool>false</bool>
+         </property>
+         <property name="tickPosition">
+          <enum>QSlider::TicksBothSides</enum>
+         </property>
+         <property name="tickInterval">
+          <number>10</number>
+         </property>
+        </widget>
+       </item>
       </layout>
      </item>
     </layout>
    </widget>
-   <widget class="QPushButton" name="menuAdd_Songs_2">
-    <property name="geometry">
-     <rect>
-      <x>550</x>
-      <y>740</y>
-      <width>36</width>
-      <height>32</height>
-     </rect>
-    </property>
-    <property name="cursor">
-     <cursorShape>PointingHandCursor</cursorShape>
-    </property>
-    <property name="toolTip">
-     <string>Pause/Unpause</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset resource="utils/music_res.qrc">
-      <normaloff>:/img/images/Pause.png</normaloff>:/img/images/Pause.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>24</width>
-      <height>24</height>
-     </size>
-    </property>
-    <property name="flat">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <zorder>label_2</zorder>
-   <zorder>frame_6</zorder>
-   <zorder>menuAdd_Songs</zorder>
-   <zorder>menuAdd_Songs_2</zorder>
   </widget>
   <action name="actionAdd_Songs">
    <property name="icon">

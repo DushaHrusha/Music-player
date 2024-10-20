@@ -1,5 +1,8 @@
 <RCC>
   <qresource prefix="img">
+    <file>images/test.png</file>
+    <file>images/1679569032_bogatyr-club-p-rasteniya-na-chernom-fone-instagram-3.jpg</file>
+    <file>images/1679569032_bogatyr-club-p-rasteniya-na-chernom-fone-instagram-3.jpg</file>
     <file>images/CD.png</file>
     <file>images/Create.png</file>
     <file>images/Delete.png</file>
