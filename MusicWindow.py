@@ -8,19 +8,19 @@
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from PySide6.QtCore import (QCoreApplication,
+from PyQt5.QtCore import (QCoreApplication,
     QMetaObject, QRect,
     QSize, Qt)
-from PySide6.QtGui import (QAction,QFont,QIcon)
-from PySide6.QtWidgets import (QHBoxLayout, QLabel,
-    QMenu, QMenuBar, QSizePolicy, QSlider,
-    QSpacerItem, QStatusBar, QToolButton, QVBoxLayout,
-    QWidget)
+from PySide6.QtGui import (QFont,QIcon)
+from PyQt5.QtWidgets import (QHBoxLayout, QLabel,
+                             QMenu, QMenuBar, QSizePolicy, QSlider,
+                             QSpacerItem, QStatusBar, QToolButton, QVBoxLayout,
+                             QWidget, QAction)
 import resources
 
 
 class Ui_MainWindow(object):
-    def setupUi(self, MainWindow):
+    def setupUi(self, MainWindow: object) -> object:
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.resize(600, 150)

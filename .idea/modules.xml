@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Music-player-in-PyQT-Pyside-master.iml" filepath="$PROJECT_DIR$/.idea/Music-player-in-PyQT-Pyside-master.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/PyQt5_Simple_Music_Player.iml" filepath="$PROJECT_DIR$/.idea/PyQt5_Simple_Music_Player.iml" />
     </modules>
   </component>
 </project>
