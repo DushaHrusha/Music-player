@@ -1,13 +1,15 @@
 import os.path
 import time
 from logging import debug
-
+import eyed3
 from PyQt5 import QtMultimedia, QtGui
 from PyQt5.QtCore import QUrl, QTimer
 from PyQt5.QtGui import QWindow
 from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer
 from PyQt5.QtWidgets import *
 from sqlalchemy import false
+from mutagen import File
+from sqlalchemy.util import await_only
 
 from database_music import MusicDatabase
 from music import Ui_SimpleMusiPlayer
@@ -47,7 +49,7 @@ class SimpleMusicPlayer(QMainWindow, Ui_SimpleMusiPlayer):
         # Connections
         self.musicSlider.sliderMoved[int].connect(lambda: self.player.setPosition(self.musicSlider.value()))
         self.volumeSlider.sliderMoved[int].connect(lambda: self.volume_changed())
-        self.actionAdd_Songs.triggered.connect(self.add_songs)
+        self.menuAdd_Songs_2.clicked.connect(self.add_songs)
         self.actionRemove_Selected.triggered.connect(self.remove_one_song)
         self.actionRemove_All.triggered.connect(self.remove_all_songs)
         self.playpushButton.clicked.connect(self.play_song)
@@ -70,6 +72,8 @@ class SimpleMusicPlayer(QMainWindow, Ui_SimpleMusiPlayer):
         MusicDatabase.insert_blob( self.music, 10, 'Гитлер живёт в Антарктиде ', 'Б.А.У.', 'MusicCover/ab67616d0000b27306d510fc5f9fcee6840a40af.jpg','MusicServer/Bezdna_Analnogo_Ugneteniya_-_Gitler_zhivyot_v_Antarktide_(Bib.fm).mp3')
 
         self.add_song()
+        self.id_next = MusicDatabase.check_id_music(self.music)
+
 
     def move_slider(self):
         if stopped:
@@ -92,11 +96,39 @@ class SimpleMusicPlayer(QMainWindow, Ui_SimpleMusiPlayer):
             self, caption='Add Songs',
             directory=':\\', filter="Supported Files (*.mp3;*.mpeg;*.ogg;*.m4a;*.MP3;*.wma;*.acc;*.amr)"
         )
-
         if files:
             for file in files:
-                self.current_songs.append(file)
-                self.listWidget.addItem(os.path.basename(file))
+                print(file)
+                # self.current_songs.append(file)
+                # Укажите путь к вашему mp3-файлу
+                audiofile = eyed3.load(file)
+                if (audiofile.tag == None):
+                    audiofile.initTag()
+                images = audiofile.tag.images
+                image_path = ''
+                if audiofile.tag is not None and audiofile.tag.images:
+                    # Извлекаем обложку
+                    for image in audiofile.tag.images:
+                        # Получаем данные обложки
+                        image_data = image.image_data
+                        title = audiofile.tag.title
+                        print(title)
+                        # Определяем имя файла для сохранения
+                        cover_image_path = title + ".png"  # Например, "cover_image.jpg"
+                        image_path = cover_image_path
+                        # Сохраняем обложку
+                        with open(cover_image_path, "wb") as img_file:
+                            img_file.write(image_data)
+
+                    artist = audiofile.tag.artist
+                    print(artist)
+                    #print(MusicDatabase.check_id_music())
+                    MusicDatabase.insert_blob(self.music, self.id_next, title, artist, image_path, file)
+                    self.listWidget.addItem(os.path.basename(title))
+                    self.current_songs.append(MusicDatabase.read_blob_data(self.music, title))
+                else:
+                    print("Обложка не найдена.")
+                self.id_next = MusicDatabase.check_id_music(self.music)
 
     def add_song(self):
         for music_name in self.music.take_name_musics():

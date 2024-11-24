@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'rmusic.ui'
+# Form implementation generated from reading ui file '.\rmusic.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.11
 #
@@ -117,7 +117,7 @@ class Ui_SimpleMusiPlayer(object):
         self.playpushButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.playpushButton.setText("")
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap("utils/images/Play.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon2.addPixmap(QtGui.QPixmap(".\\utils/images/Play.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.playpushButton.setIcon(icon2)
         self.playpushButton.setIconSize(QtCore.QSize(24, 24))
         self.playpushButton.setFlat(True)
@@ -133,6 +133,13 @@ class Ui_SimpleMusiPlayer(object):
         self.pausepushButton.setFlat(True)
         self.pausepushButton.setObjectName("pausepushButton")
         self.horizontalLayout_2.addWidget(self.pausepushButton)
+        self.menuAdd_Songs_2 = QtWidgets.QPushButton(self.frame_3)
+        self.menuAdd_Songs_2.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.menuAdd_Songs_2.setIcon(icon1)
+        self.menuAdd_Songs_2.setIconSize(QtCore.QSize(24, 24))
+        self.menuAdd_Songs_2.setFlat(True)
+        self.menuAdd_Songs_2.setObjectName("menuAdd_Songs_2")
+        self.horizontalLayout_2.addWidget(self.menuAdd_Songs_2)
         self.stoppushButton = QtWidgets.QPushButton(self.frame_3)
         self.stoppushButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.stoppushButton.setText("")
@@ -199,6 +206,8 @@ class Ui_SimpleMusiPlayer(object):
         self.previouspushButton.setToolTip(_translate("SimpleMusiPlayer", "Previous"))
         self.playpushButton.setToolTip(_translate("SimpleMusiPlayer", "Play"))
         self.pausepushButton.setToolTip(_translate("SimpleMusiPlayer", "Pause/Unpause"))
+        self.menuAdd_Songs_2.setToolTip(_translate("SimpleMusiPlayer", "Previous"))
+        self.menuAdd_Songs_2.setText(_translate("SimpleMusiPlayer", "+++"))
         self.stoppushButton.setToolTip(_translate("SimpleMusiPlayer", "Stop"))
         self.nextpushButton.setToolTip(_translate("SimpleMusiPlayer", "Next"))
         self.actionAdd_Songs.setText(_translate("SimpleMusiPlayer", "Add Songs"))

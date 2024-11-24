@@ -11,7 +11,6 @@ class MusicDatabase:
         self.list_musics = []
         self.db = sqlite3.connect('music.db')
         self.cursor = self.db.cursor()
-
         self.cursor.execute("""CREATE TABLE IF NOT EXISTS autors (
                 id INTEGER PRIMARY KEY,
                 name TEXT,
@@ -41,6 +40,12 @@ class MusicDatabase:
         with open(filename, 'rb') as file:
             blob_data = file.read()
         return blob_data
+
+    def check_id_music(self):
+        """Получает следующий доступный ID для музыки."""
+        self.cursor.execute("SELECT MAX(id) FROM musics")
+        max_id = self.cursor.fetchone()[0]
+        return (max_id + 1) if max_id is not None else 1
 
     def insert_blob(self, id, name_music, name_author, photo, music_file):
         try:
