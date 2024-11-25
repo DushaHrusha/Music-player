@@ -1,6 +1,8 @@
 import os.path
 import time
 from logging import debug
+from traceback import print_tb
+
 import eyed3
 from PyQt5 import QtMultimedia, QtGui
 from PyQt5.QtCore import QUrl, QTimer
@@ -50,6 +52,7 @@ class SimpleMusicPlayer(QMainWindow, Ui_SimpleMusiPlayer):
         self.musicSlider.sliderMoved[int].connect(lambda: self.player.setPosition(self.musicSlider.value()))
         self.volumeSlider.sliderMoved[int].connect(lambda: self.volume_changed())
         self.menuAdd_Songs_2.clicked.connect(self.add_songs)
+        self.menuRemove_Songs.clicked.connect(self.remove_one_song)
         self.actionRemove_Selected.triggered.connect(self.remove_one_song)
         self.actionRemove_All.triggered.connect(self.remove_all_songs)
         self.playpushButton.clicked.connect(self.play_song)
@@ -92,6 +95,7 @@ class SimpleMusicPlayer(QMainWindow, Ui_SimpleMusiPlayer):
                 #self.end_time_label.setText(f"{song_duration}")
 
     def add_songs(self):
+        self.id_next = MusicDatabase.check_id_music(self.music)
         files, _ = QFileDialog.getOpenFileNames(
             self, caption='Add Songs',
             directory=':\\', filter="Supported Files (*.mp3;*.mpeg;*.ogg;*.m4a;*.MP3;*.wma;*.acc;*.amr)"
@@ -106,8 +110,11 @@ class SimpleMusicPlayer(QMainWindow, Ui_SimpleMusiPlayer):
                     audiofile.initTag()
                 images = audiofile.tag.images
                 image_path = ''
+                artist = audiofile.tag.artist
+
                 if audiofile.tag is not None and audiofile.tag.images:
                     # Извлекаем обложку
+
                     for image in audiofile.tag.images:
                         # Получаем данные обложки
                         image_data = image.image_data
@@ -120,7 +127,7 @@ class SimpleMusicPlayer(QMainWindow, Ui_SimpleMusiPlayer):
                         with open(cover_image_path, "wb") as img_file:
                             img_file.write(image_data)
 
-                    artist = audiofile.tag.artist
+
                     print(artist)
                     #print(MusicDatabase.check_id_music())
                     MusicDatabase.insert_blob(self.music, self.id_next, title, artist, image_path, file)
@@ -128,7 +135,6 @@ class SimpleMusicPlayer(QMainWindow, Ui_SimpleMusiPlayer):
                     self.current_songs.append(MusicDatabase.read_blob_data(self.music, title))
                 else:
                     print("Обложка не найдена.")
-                self.id_next = MusicDatabase.check_id_music(self.music)
 
     def add_song(self):
         for music_name in self.music.take_name_musics():
@@ -216,6 +222,9 @@ class SimpleMusicPlayer(QMainWindow, Ui_SimpleMusiPlayer):
         current_selection = self.listWidget.currentRow()
         self.current_songs.pop(current_selection)
         self.listWidget.takeItem(current_selection)
+        current_song = self.current_songs[current_selection]
+        print(current_song[0])
+        MusicDatabase.remove_song(self.music, current_song[0])
 
     def remove_all_songs(self):
         self.stop_song()
