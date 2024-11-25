@@ -1,6 +1,11 @@
+import asyncio
 import glob
 import os
 import sqlite3
+
+from sqlalchemy.dialects.sqlite import aiosqlite
+
+
 #https://pythonru.com/biblioteki/rabota-s-izobrazhenijami-i-fajlami-v-sqlite
 
 
@@ -41,13 +46,18 @@ class MusicDatabase:
             blob_data = file.read()
         return blob_data
 
+
+
     def check_id_music(self):
         """Получает следующий доступный ID для музыки."""
         self.cursor.execute("SELECT MAX(id) FROM musics")
         max_id = self.cursor.fetchone()[0]
         return (max_id + 1) if max_id is not None else 1
 
+
+
     def insert_blob(self, id, name_music, name_author, photo, music_file):
+
         try:
             cursorDB = self.cursor
             print("Подключен к SQLite")
@@ -61,7 +71,10 @@ class MusicDatabase:
             # Преобразование данных в формат кортежа
             data_tuple = (id, name_music, name_author, photo_bin, music_bin)
             cursorDB.execute(sqlite_insert_blob_query, data_tuple)
+            #asyncio.run(self.check_id_authors(name_author, "Hip-Hop"))
+
             self.db.commit()
+
             print("Изображение и файл успешно вставлены как BLOB в таблиу")
             #cursorDB.close()
 
@@ -81,6 +94,11 @@ class MusicDatabase:
             temp_list.append(row[0])
             print(temp_list)
         return temp_list
+
+    def remove_song(self, name):
+        self.cursor.execute("DELETE FROM musics WHERE name = ?", (name[:-4],))
+        print(name[:-3] + "  удален")
+        self.db.commit()
 
     def write_to_file(self, data, filename, ):
         # Преобразование двоичных данных в нужный формат
