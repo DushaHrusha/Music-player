@@ -1,30 +1,13 @@
 import os.path
 import time
-from logging import debug
-from traceback import print_tb
-
 import eyed3
 from PyQt5 import QtMultimedia, QtGui
 from PyQt5.QtCore import QUrl, QTimer
 from PyQt5.QtGui import QWindow
 from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer
 from PyQt5.QtWidgets import *
-from sqlalchemy import false
-from mutagen import File
-from sqlalchemy.util import await_only
-
 from database_music import MusicDatabase
 from music import Ui_SimpleMusiPlayer
-
-
-class Screen2():
-    def __init__(self):
-        super().__init__()
-        self.window = QWindow()
-        self.setupUi(self)
-
-        self.playlistButton.clicked.connect(self.open_playlist)
-
 
 class SimpleMusicPlayer(QMainWindow, Ui_SimpleMusiPlayer):
     def __init__(self):
@@ -77,7 +60,6 @@ class SimpleMusicPlayer(QMainWindow, Ui_SimpleMusiPlayer):
         self.add_song()
         self.id_next = MusicDatabase.check_id_music(self.music)
 
-
     def move_slider(self):
         if stopped:
             return
@@ -91,8 +73,6 @@ class SimpleMusicPlayer(QMainWindow, Ui_SimpleMusiPlayer):
 
                 current_time = time.strftime('%H:%M:%S', time.localtime(self.player.position() / 1000))
                 song_duration = time.strftime('%H:%M:%S', time.localtime(self.player.duration() / 1000))
-                #self.start_time_label.setText(f"{current_time}")
-                #self.end_time_label.setText(f"{song_duration}")
 
     def add_songs(self):
         self.id_next = MusicDatabase.check_id_music(self.music)
@@ -111,7 +91,6 @@ class SimpleMusicPlayer(QMainWindow, Ui_SimpleMusiPlayer):
                 images = audiofile.tag.images
                 image_path = ''
                 artist = audiofile.tag.artist
-
                 if audiofile.tag is not None and audiofile.tag.images:
                     # Извлекаем обложку
 
@@ -127,14 +106,26 @@ class SimpleMusicPlayer(QMainWindow, Ui_SimpleMusiPlayer):
                         with open(cover_image_path, "wb") as img_file:
                             img_file.write(image_data)
 
-
-                    print(artist)
-                    #print(MusicDatabase.check_id_music())
-                    MusicDatabase.insert_blob(self.music, self.id_next, title, artist, image_path, file)
-                    self.listWidget.addItem(os.path.basename(title))
-                    self.current_songs.append(MusicDatabase.read_blob_data(self.music, title))
+                    try:
+                        title = audiofile.tag.title
+                        print(artist)
+                        #print(MusicDatabase.check_id_music())
+                        MusicDatabase.insert_blob(self.music, self.id_next, file, file, image_path, file)
+                        self.listWidget.addItem(os.path.basename(title))
+                        self.current_songs.append(MusicDatabase.read_blob_data(self.music, title))
+                    except Exception as e:
+                        print(f"Музыка не добавилась: {e}")
                 else:
                     print("Обложка не найдена.")
+                    try:
+                        if audiofile.tag.title is None:
+                            print(artist)
+                            #print(MusicDatabase.check_id_music())
+                            MusicDatabase.insert_blob(self.music, self.id_next, os.path.basename(file),  os.path.basename(file), "99 Problems.png", file)
+                            self.listWidget.addItem(os.path.basename( os.path.basename(file)))
+                            self.current_songs.append(MusicDatabase.read_blob_data(self.music,  os.path.basename(file)))
+                    except Exception as e:
+                        print(f"Музыка не добавилась: {e}")
 
     def add_song(self):
         for music_name in self.music.take_name_musics():
