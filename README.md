@@ -1,6 +1,7 @@
-# Не бейте пожалуйста я допишу все и сделаю иерархию 
+# Не бейте пожалуйста я допишу все и сделаю иерархию
+# Актуальная версия находится в ветке v9
 
-# Music player PyQt5 + SQLite
+## Music player PyQt5 + SQLite
 <img src="https://github.com/DushaHrusha/Music-player/raw/v6/Music-player.png" width="500">
 
 <b>Наименование проекта:</b> Музыкальный плеер
