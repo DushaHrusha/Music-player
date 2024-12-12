@@ -14,7 +14,7 @@ class MusicDatabase:
     def __init__(self):
         self.list_music = ''
         self.list_musics = []
-        self.db = sqlite3.connect('music.db')
+        self.db = sqlite3.connect('db/music.db')
         self.cursor = self.db.cursor()
         self.cursor.execute("""CREATE TABLE IF NOT EXISTS autors (
                 id INTEGER PRIMARY KEY,
@@ -25,9 +25,9 @@ class MusicDatabase:
         self.cursor.execute("""CREATE TABLE IF NOT EXISTS  musics (
                 id INTEGER PRIMARY KEY,
                 name TEXT,
+                autor_name TEXT, 
                 photo BLOB,
                 file BLOB,
-                autor_name TEXT, 
                 FOREIGN KEY (autor_name)  REFERENCES autors (name)
              ) """)
 
@@ -41,10 +41,17 @@ class MusicDatabase:
             pass
 
     def convert_to_binary_data(filename):
-        # Преобразование данных в двоичный формат
-        with open(filename, 'rb') as file:
-            blob_data = file.read()
-        return blob_data
+        if not os.path.exists(filename):
+            raise FileNotFoundError(f"The file {filename} does not exist.")
+
+        try:
+            with open(filename, 'rb') as file:
+                blob_data = file.read()
+            return blob_data
+        except FileNotFoundError:
+            print(f"Error: The file {filename} could not be found.")
+        except Exception as e:
+            print(f"An error occurred: {str(e)}")
 
 
 
@@ -63,7 +70,9 @@ class MusicDatabase:
             print("Подключен к SQLite")
 
             sqlite_insert_blob_query = """INSERT INTO musics
-                                      (id, name, photo, file, autor_name) VALUES (?, ?, ?, ?, ?)"""
+                                      (id, name,autor_name, photo, file) VALUES (?, ?, ?, ?, ?)"""
+
+
 
             photo_bin = MusicDatabase.convert_to_binary_data(photo)
             music_bin = MusicDatabase.convert_to_binary_data(music_file)
@@ -100,11 +109,18 @@ class MusicDatabase:
         print(name[:-3] + "  удален")
         self.db.commit()
 
-    def write_to_file(self, data, filename, ):
-        # Преобразование двоичных данных в нужный формат
-        with open(filename, 'wb') as file:
-            file.write(data)
-            self.list_music = filename
+    def write_to_file(self, data, filename):
+        directory = full_path = os.path.abspath(filename)
+        print("________" + directory + "____________")
+        with open(directory, 'wb') as file:
+            try:
+                file.write(data)
+                self.list_music = filename
+            except ZeroDivisionError:
+                print("nhti")
+            finally:
+                # Код, который всегда выполнится, независимо от того, было ли исключение
+                print("Этот блок выполн")
         print("Данный из blob сохранены в: ", filename, "\n")
         return self.list_music
 
@@ -117,8 +133,6 @@ class MusicDatabase:
             cursorDB.execute(sql_fetch_blob_query, (name,))
             record = cursorDB.fetchall()
             for row in record:
-
-
                 print("Id = ", row[0], "NameMusic = ", row[1],  "nameAutor =", row[2])
                 nameMusic  = row[1]
                 photo = row[3]

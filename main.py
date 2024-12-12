@@ -1,11 +1,13 @@
 import os.path
 import time
 import eyed3
+
 from PyQt5 import QtMultimedia, QtGui
 from PyQt5.QtCore import QUrl, QTimer
 from PyQt5.QtGui import QWindow
 from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer
 from PyQt5.QtWidgets import *
+
 from database_music import MusicDatabase
 from music import Ui_SimpleMusiPlayer
 
@@ -45,17 +47,17 @@ class SimpleMusicPlayer(QMainWindow, Ui_SimpleMusiPlayer):
         self.stoppushButton.clicked.connect(self.stop_song)
 
         self.music = MusicDatabase()
-        MusicDatabase.insert_blob( self.music, 0, 'Мир Горит', 'Oxxxymiron', 'MusicCover/79a82ce939dbbbe836222cf2352c6e20.1000x1000x1.png','MusicServer/oxxxymiron-mir-gorit-mp3.mp3')
-        MusicDatabase.insert_blob( self.music, 1, 'In The End', 'Linkin Park', 'MusicCover/LinkinParkIntheEnd.jpg','MusicServer/linkin-park-in-the-end.mp3')
-        MusicDatabase.insert_blob( self.music, 2, 'Одинокий каннибал', 'Loqiemean ', 'MusicCover/ab67616d0000b273c525001ff36d4f0492b12ecc.jpg','MusicServer/loqiemean-odinokij-kannibal-mp3.mp3')
-        MusicDatabase.insert_blob( self.music, 3, 'Frau and Mann', 'Lindemann', 'MusicCover/sddefault.jpg','MusicServer/Lindemann - Frau and Mann.mp3')
-        MusicDatabase.insert_blob( self.music, 4, 'Сказки', 'Хаски', 'MusicCover/1200x1200bb.jpg','MusicServer/haski-skazki-mp3.mp3')
-        MusicDatabase.insert_blob( self.music, 5, 'Welcome To Brixton ', 'SR', 'MusicCover/artworks-pCZlcuZ3ZOYg-0-t500x500.jpg','MusicServer/SR - Welcome To Brixton.mp3')
-        MusicDatabase.insert_blob( self.music, 6, 'Красота и Уродство ', 'Linkin Park', 'MusicCover/Обложка_Красота_и_уродство.jpg','MusicServer/Oxxxymiron - Красота и Уродство.mp3')
-        MusicDatabase.insert_blob( self.music, 7, 'The Search', 'NF', 'MusicCover/ab67616d0000b273942a0c9ac8f1def7c8805044.jpg','MusicServer/NF - The Search - Edit.mp3')
-        MusicDatabase.insert_blob( self.music, 8, 'Кукла колдуна ', 'Король и Шут ', 'MusicCover/72b8e793ae6943cdf5aaa0f198a31118.1000x1000x1.png','MusicServer/Король и Шут - Кукла колдуна (OST Король и Шут).mp3')
-        MusicDatabase.insert_blob( self.music, 9, 'Hotline', 'Kaito Shoma', 'MusicCover/artworks-Th4EWoYzpvwZyFfz-vILRGg-t1080x1080.jpg','MusicServer/Kaito Shoma - HOTLINE.DEATH WISH.mp3')
-        MusicDatabase.insert_blob( self.music, 10, 'Гитлер живёт в Антарктиде ', 'Б.А.У.', 'MusicCover/ab67616d0000b27306d510fc5f9fcee6840a40af.jpg','MusicServer/Bezdna_Analnogo_Ugneteniya_-_Gitler_zhivyot_v_Antarktide_(Bib.fm).mp3')
+        MusicDatabase.insert_blob(self.music, 0, 'Мир Горит', 'Oxxxymiron', 'static/img/MusicCover/79a82ce939dbbbe836222cf2352c6e20.1000x1000x1.png','static/files/MusicServer/oxxxymiron-mir-gorit-mp3.mp3')
+        MusicDatabase.insert_blob(self.music, 1, 'In The End', 'Linkin Park', 'static/img/MusicCover/LinkinParkIntheEnd.jpg','static/files/MusicServer/linkin-park-in-the-end.mp3')
+        #MusicDatabase.insert_blob(self.music, 2, 'Одинокий каннибал', 'Loqiemean ', 'MusicCover/ab67616d0000b273c525001ff36d4f0492b12ecc.jpg','static/files/MusicServer/loqiemean-odinokij-kannibal-mp3.mp3')
+        #MusicDatabase.insert_blob(self.music, 3, 'Frau and Mann', 'Lindemann', 'MusicCover/sddefault.jpg','static/files/MusicServer/Lindemann - Frau and Mann.mp3')
+        #MusicDatabase.insert_blob(self.music, 4, 'Сказки', 'Хаски', 'MusicCover/1200x1200bb.jpg','static/files/MusicServer/haski-skazki-mp3.mp3')
+        #MusicDatabase.insert_blob(self.music, 5, 'Welcome To Brixton ', 'SR', 'MusicCover/artworks-pCZlcuZ3ZOYg-0-t500x500.jpg','static/files/MusicServer/SR - Welcome To Brixton.mp3')
+        #MusicDatabase.insert_blob(self.music, 6, 'Красота и Уродство ', 'Linkin Park', 'MusicCover/Обложка_Красота_и_уродство.jpg','static/files/MusicServer/Oxxxymiron - Красота и Уродство.mp3')
+        #MusicDatabase.insert_blob(self.music, 7, 'The Search', 'NF', 'MusicCover/ab67616d0000b273942a0c9ac8f1def7c8805044.jpg','static/files/MusicServer/NF - The Search - Edit.mp3')
+        #MusicDatabase.insert_blob(self.music, 8, 'Кукла колдуна ', 'Король и Шут ', 'MusicCover/72b8e793ae6943cdf5aaa0f198a31118.1000x1000x1.png','static/files/MusicServer/Король и Шут - Кукла колдуна (OST Король и Шут).mp3')
+        #MusicDatabase.insert_blob(self.music, 9, 'Hotline', 'Kaito Shoma', 'MusicCover/artworks-Th4EWoYzpvwZyFfz-vILRGg-t1080x1080.jpg','static/files/MusicServer/Kaito Shoma - HOTLINE.DEATH WISH.mp3')
+        #MusicDatabase.insert_blob(self.music, 10, 'Гитлер живёт в Антарктиде ', 'Б.А.У.', 'MusicCover/ab67616d0000b27306d510fc5f9fcee6840a40af.jpg','static/files/MusicServer/Bezdna_Analnogo_Ugneteniya_-_Gitler_zhivyot_v_Antarktide_(Bib.fm).mp3')
 
         self.add_song()
         self.id_next = MusicDatabase.check_id_music(self.music)
