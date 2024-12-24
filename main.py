@@ -47,7 +47,7 @@ class SimpleMusicPlayer(QMainWindow, Ui_SimpleMusiPlayer):
         self.stoppushButton.clicked.connect(self.stop_song)
 
         self.music = MusicDatabase()
-        self.music.insert_blob( 0, 'Мир Горит', 'Oxxxymiron', 'static/img/MusicCover/79a82ce939dbbbe836222cf2352c6e20.1000x1000x1.png','static/files/MusicServer/oxxxymiron-mir-gorit-mp3.mp3')
+        self.music.insert_blob( 0, 'Мир Горит', 'Oxxxymiron', 'static/img/MusicCover/79a82ce939dbbbe836222cf2352c6e20.1000x1000x1.png','static/files/MusicServer/Мир Горит.mp3')
         self.music.insert_blob(1, 'In The End', 'Linkin Park', 'static/img/MusicCover/LinkinParkIntheEnd.jpg','static/files/MusicServer/linkin-park-in-the-end.mp3')
         #MusicDatabase.insert_blob(self.music, 2, 'Одинокий каннибал', 'Loqiemean ', 'MusicCover/ab67616d0000b273c525001ff36d4f0492b12ecc.jpg','static/files/MusicServer/loqiemean-odinokij-kannibal-mp3.mp3')
         #MusicDatabase.insert_blob(self.music, 3, 'Frau and Mann', 'Lindemann', 'MusicCover/sddefault.jpg','static/files/MusicServer/Lindemann - Frau and Mann.mp3')
@@ -137,7 +137,7 @@ class SimpleMusicPlayer(QMainWindow, Ui_SimpleMusiPlayer):
                     try:
                         if audiofile.tag.title is None:
                             print(artist)
-                            MusicDatabase.insert_blob(self.music, self.id_next, title, artist , ".png", file)
+                            MusicDatabase.insert_blob(self.music, self.id_next, title, artist , "static/img/MusicCover/Standard.png", file)
                             MusicDatabase.check_id_autors(self.music, artist)
                             self.listWidget.addItem(title)
                             self.current_songs.append(MusicDatabase.read_blob_data(self.music, title))
@@ -162,12 +162,27 @@ class SimpleMusicPlayer(QMainWindow, Ui_SimpleMusiPlayer):
 
             current_selection = self.listWidget.currentRow()
             current_song = self.current_songs[current_selection]
-            song_url = QMediaContent(QUrl.fromLocalFile(current_song[0]))
+            current_song[0] = current_song[0]
+
+
+            directory = os.path.join('static', 'files', 'MusicServer')
+
+            # Создаем директорию, если она не существует
+            if not os.path.exists(directory):
+                os.makedirs(directory)
+
+            # Полный путь к файлу
+            directory = os.path.join(directory, current_song[0])
+
+            song_url = QMediaContent(QUrl.fromLocalFile(directory))
             self.player.setMedia(song_url)
             self.player.play()
             self.move_slider()
+            directory = os.path.join('static', 'img', 'MusicCover')
 
-            self.photo_music.setPixmap(QtGui.QPixmap(current_song[1]))
+            directory = os.path.join(directory, current_song[1])
+
+            self.photo_music.setPixmap(QtGui.QPixmap(directory))
         except Exception as e:
             print(f"Play song error: {e}")
 

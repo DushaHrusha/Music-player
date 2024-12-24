@@ -127,7 +127,22 @@ class MusicDatabase:
         self.db.commit()
 
     def write_to_file(self, data, filename):
-        directory = full_path = os.path.abspath(filename)
+        if filename.endswith('.png') or filename.endswith('.jpg') :
+            directory = os.path.join('static', 'img', 'MusicCover')
+        elif filename.endswith('.mp3'):
+            directory = os.path.join('static', 'files', 'MusicServer')
+
+        # Создаем директорию, если она не существует
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+
+        # Полный путь к файлу
+        directory = os.path.join(directory, filename)
+        print("________" + directory + "____________")
+
+        #directory = full_path = os.path.abspath(filename)
+
+
         print("________" + directory + "____________")
         with open(directory, 'wb') as file:
             try:
