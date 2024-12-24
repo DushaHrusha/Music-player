@@ -1,7 +1,8 @@
 import sys
 
-from main import SimpleMusicPlayer
 from PyQt5.QtWidgets import QApplication
+
+from main import SimpleMusicPlayer
 
 
 app = QApplication(sys.argv)

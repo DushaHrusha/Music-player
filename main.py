@@ -60,7 +60,7 @@ class SimpleMusicPlayer(QMainWindow, Ui_SimpleMusiPlayer):
         #MusicDatabase.insert_blob(self.music, 10, 'Гитлер живёт в Антарктиде ', 'Б.А.У.', 'MusicCover/ab67616d0000b27306d510fc5f9fcee6840a40af.jpg','static/files/MusicServer/Bezdna_Analnogo_Ugneteniya_-_Gitler_zhivyot_v_Antarktide_(Bib.fm).mp3')
 
         self.add_song()
-        self.add_songs()
+        #self.add_songs()
         self.id_next = MusicDatabase.check_id_music(self.music)
 
     def move_slider(self):
