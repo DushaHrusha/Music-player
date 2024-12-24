@@ -100,7 +100,6 @@ class SimpleMusicPlayer(QMainWindow, Ui_SimpleMusiPlayer):
                     else:
                         print("Строка не содержит символа '-' или содержит больше одного символа '-'")
                         artist = os.path.basename(file)
-
                 if audiofile.tag is not None and audiofile.tag.title:
                     title = audiofile.tag.title
                 else:
@@ -128,6 +127,7 @@ class SimpleMusicPlayer(QMainWindow, Ui_SimpleMusiPlayer):
                         break
                     try:
                         MusicDatabase.insert_blob(self.music, self.id_next, title, artist, image_path, file)
+                        MusicDatabase.check_id_autors(self.music, artist)
                         self.listWidget.addItem(title)
                         self.current_songs.append(MusicDatabase.read_blob_data(self.music, title))
                     except Exception as e:
@@ -138,6 +138,7 @@ class SimpleMusicPlayer(QMainWindow, Ui_SimpleMusiPlayer):
                         if audiofile.tag.title is None:
                             print(artist)
                             MusicDatabase.insert_blob(self.music, self.id_next, title, artist , ".png", file)
+                            MusicDatabase.check_id_autors(self.music, artist)
                             self.listWidget.addItem(title)
                             self.current_songs.append(MusicDatabase.read_blob_data(self.music, title))
                     except Exception as e:

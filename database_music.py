@@ -10,8 +10,7 @@ class MusicDatabase:
         self.cursor = self.db.cursor()
         self.cursor.execute("""CREATE TABLE IF NOT EXISTS autors (
                 id INTEGER PRIMARY KEY,
-                name TEXT,
-                genre TEXT
+                name TEXT
             ) """)
 
         self.cursor.execute("""CREATE TABLE IF NOT EXISTS  musics (
@@ -24,11 +23,7 @@ class MusicDatabase:
              ) """)
 
         try:
-            self.cursor.execute("INSERT INTO autors VALUES(1 ,'Oxxxymiron', 'Hip-Hop')")
-            self.cursor.execute("INSERT INTO autors VALUES(2 ,'Markul', 'Hip-Hop')")
-            self.cursor.execute("INSERT INTO autors VALUES(3 ,'Ram', 'Hip-Hop')")
-            self.cursor.execute("INSERT INTO autors VALUES(4 ,'Booker', 'Hip-Hop')")
-            self.cursor.execute("INSERT INTO autors VALUES(5 ,'Metalica', 'Rock')")
+            self.cursor.execute("INSERT INTO autors VALUES(1 ,'Oxxxymiron')")
         except:
             pass
 
@@ -50,6 +45,39 @@ class MusicDatabase:
         self.cursor.execute("SELECT MAX(id) FROM musics")
         max_id = self.cursor.fetchone()[0]
         return (max_id + 1) if max_id is not None else 1
+
+    def check_id_autors(self, autors_name_str):
+        author_name = autors_name_str
+
+        # Выполняем запрос для проверки существования автора
+        self.cursor.execute("SELECT EXISTS(SELECT 1 FROM autors WHERE name = ?)", (author_name,))
+        exists = self.cursor.fetchone()[0]
+
+        if exists:
+            print(f"Автор '{author_name}' уже существует в базе данных.")
+            if author_name:
+
+
+                # Выбираем все песни этого автора
+                self.cursor.execute("SELECT name FROM musics WHERE autor_name = ?", (author_name,))
+                songs = self.cursor.fetchall()
+
+                # Выводим результаты
+                if songs:
+                    print(f"Песни автора {author_name}:")
+                    for song in songs:
+                        print(f"Название: {song[0]}")
+                else:
+                    print(f"У автора {author_name} нет песен в базе данных.")
+            else:
+                print(f"Автор {author_name} не найден в базе данных.")
+        else:
+            # Если автора нет, добавляем его в базу данных
+            self.cursor.execute("INSERT INTO autors (name) VALUES (?)", (author_name,))
+            self.db.commit()  # Сохраняем изменения
+            print(f"Автор '{author_name}' был добавлен в базу данных.")
+
+
 
     def insert_blob(self, id, name_music, name_author, photo, music_file):
 
@@ -143,6 +171,8 @@ class MusicDatabase:
             if self.db:
                 #db.close()
                 print("Соединение с SQLite закрыто")
+
+        # Функция для получения песен автора
 
 
     txtfiles = []
