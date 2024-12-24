@@ -1,14 +1,6 @@
-import asyncio
 import glob
 import os
 import sqlite3
-
-from sqlalchemy.dialects.sqlite import aiosqlite
-
-
-#https://pythonru.com/biblioteki/rabota-s-izobrazhenijami-i-fajlami-v-sqlite
-
-
 
 class MusicDatabase:
     def __init__(self):
@@ -53,15 +45,11 @@ class MusicDatabase:
         except Exception as e:
             print(f"An error occurred: {str(e)}")
 
-
-
     def check_id_music(self):
         """Получает следующий доступный ID для музыки."""
         self.cursor.execute("SELECT MAX(id) FROM musics")
         max_id = self.cursor.fetchone()[0]
         return (max_id + 1) if max_id is not None else 1
-
-
 
     def insert_blob(self, id, name_music, name_author, photo, music_file):
 
@@ -105,6 +93,7 @@ class MusicDatabase:
         return temp_list
 
     def remove_song(self, name):
+        print(name[:-3] + "  удален")
         self.cursor.execute("DELETE FROM musics WHERE name = ?", (name[:-4],))
         print(name[:-3] + "  удален")
         self.db.commit()

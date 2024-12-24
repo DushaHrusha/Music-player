@@ -47,8 +47,8 @@ class SimpleMusicPlayer(QMainWindow, Ui_SimpleMusiPlayer):
         self.stoppushButton.clicked.connect(self.stop_song)
 
         self.music = MusicDatabase()
-        MusicDatabase.insert_blob(self.music, 0, 'Мир Горит', 'Oxxxymiron', 'static/img/MusicCover/79a82ce939dbbbe836222cf2352c6e20.1000x1000x1.png','static/files/MusicServer/oxxxymiron-mir-gorit-mp3.mp3')
-        MusicDatabase.insert_blob(self.music, 1, 'In The End', 'Linkin Park', 'static/img/MusicCover/LinkinParkIntheEnd.jpg','static/files/MusicServer/linkin-park-in-the-end.mp3')
+        self.music.insert_blob( 0, 'Мир Горит', 'Oxxxymiron', 'static/img/MusicCover/79a82ce939dbbbe836222cf2352c6e20.1000x1000x1.png','static/files/MusicServer/oxxxymiron-mir-gorit-mp3.mp3')
+        self.music.insert_blob(1, 'In The End', 'Linkin Park', 'static/img/MusicCover/LinkinParkIntheEnd.jpg','static/files/MusicServer/linkin-park-in-the-end.mp3')
         #MusicDatabase.insert_blob(self.music, 2, 'Одинокий каннибал', 'Loqiemean ', 'MusicCover/ab67616d0000b273c525001ff36d4f0492b12ecc.jpg','static/files/MusicServer/loqiemean-odinokij-kannibal-mp3.mp3')
         #MusicDatabase.insert_blob(self.music, 3, 'Frau and Mann', 'Lindemann', 'MusicCover/sddefault.jpg','static/files/MusicServer/Lindemann - Frau and Mann.mp3')
         #MusicDatabase.insert_blob(self.music, 4, 'Сказки', 'Хаски', 'MusicCover/1200x1200bb.jpg','static/files/MusicServer/haski-skazki-mp3.mp3')
@@ -60,6 +60,7 @@ class SimpleMusicPlayer(QMainWindow, Ui_SimpleMusiPlayer):
         #MusicDatabase.insert_blob(self.music, 10, 'Гитлер живёт в Антарктиде ', 'Б.А.У.', 'MusicCover/ab67616d0000b27306d510fc5f9fcee6840a40af.jpg','static/files/MusicServer/Bezdna_Analnogo_Ugneteniya_-_Gitler_zhivyot_v_Antarktide_(Bib.fm).mp3')
 
         self.add_song()
+        self.add_songs()
         self.id_next = MusicDatabase.check_id_music(self.music)
 
     def move_slider(self):
@@ -85,35 +86,49 @@ class SimpleMusicPlayer(QMainWindow, Ui_SimpleMusiPlayer):
         if files:
             for file in files:
                 print(file)
-                # self.current_songs.append(file)
-                # Укажите путь к вашему mp3-файлу
                 audiofile = eyed3.load(file)
                 if (audiofile.tag == None):
                     audiofile.initTag()
+
+                if audiofile.tag is not None and audiofile.tag.artist:
+                    artist = audiofile.tag.artist
+                else:
+                    parts = [part.strip() for part in os.path.basename(file).split('-')]
+                    if len(parts) == 2:
+                        artist = parts[0]
+                        print("Первая часть:", parts[0])
+                    else:
+                        print("Строка не содержит символа '-' или содержит больше одного символа '-'")
+                        artist = os.path.basename(file)
+
+                if audiofile.tag is not None and audiofile.tag.title:
+                    title = audiofile.tag.title
+                else:
+                    parts = [part.strip() for part in os.path.basename(file).split('-')]
+                    if len(parts) == 2:
+                        title = parts[1]
+                        if title.endswith(".mp3"):
+                            title = title[:-4]  # Убираем последние 4 символа
+                        else:
+                            title = title
+                        print("Первая часть:", parts[1])
+                    else:
+                        print("Строка не содержит символа '-' или содержит больше одного символа '-'")
+                        title = os.path.basename(file)
+
                 images = audiofile.tag.images
                 image_path = ''
-                artist = audiofile.tag.artist
                 if audiofile.tag is not None and audiofile.tag.images:
-                    # Извлекаем обложку
-
                     for image in audiofile.tag.images:
-                        # Получаем данные обложки
                         image_data = image.image_data
-                        title = audiofile.tag.title
-                        print(title)
-                        # Определяем имя файла для сохранения
-                        cover_image_path = title + ".png"  # Например, "cover_image.jpg"
+                        cover_image_path = title + ".png"
                         image_path = cover_image_path
-                        # Сохраняем обложку
                         with open(cover_image_path, "wb") as img_file:
                             img_file.write(image_data)
-
+                        break
                     try:
-                        title = audiofile.tag.title
-                        print(artist)
-                        #print(MusicDatabase.check_id_music())
-                        MusicDatabase.insert_blob(self.music, self.id_next, file, file, image_path, file)
-                        self.listWidget.addItem(os.path.basename(title))
+                        MusicDatabase.insert_blob(self.music, self.id_next, title, artist, image_path, file)
+                        self.listWidget.addItem(title)
                         self.current_songs.append(MusicDatabase.read_blob_data(self.music, title))
                     except Exception as e:
                         print(f"Музыка не добавилась: {e}")
@@ -122,10 +137,9 @@ class SimpleMusicPlayer(QMainWindow, Ui_SimpleMusiPlayer):
                     try:
                         if audiofile.tag.title is None:
                             print(artist)
-                            #print(MusicDatabase.check_id_music())
-                            MusicDatabase.insert_blob(self.music, self.id_next, os.path.basename(file),  os.path.basename(file), "99 Problems.png", file)
-                            self.listWidget.addItem(os.path.basename( os.path.basename(file)))
-                            self.current_songs.append(MusicDatabase.read_blob_data(self.music,  os.path.basename(file)))
+                            MusicDatabase.insert_blob(self.music, self.id_next, title, artist , ".png", file)
+                            self.listWidget.addItem(title)
+                            self.current_songs.append(MusicDatabase.read_blob_data(self.music, title))
                     except Exception as e:
                         print(f"Музыка не добавилась: {e}")
 
@@ -212,12 +226,18 @@ class SimpleMusicPlayer(QMainWindow, Ui_SimpleMusiPlayer):
             print(f"Changing volume error: {e}")
 
     def remove_one_song(self):
-        current_selection = self.listWidget.currentRow()
-        self.current_songs.pop(current_selection)
-        self.listWidget.takeItem(current_selection)
-        current_song = self.current_songs[current_selection]
-        print(current_song[0])
-        MusicDatabase.remove_song(self.music, current_song[0])
+        try:
+            current_selection = self.listWidget.currentRow()
+            self.current_songs.pop(current_selection)
+            self.listWidget.takeItem(current_selection)
+            current_song = self.current_songs[current_selection]
+            print(current_song[0])
+            MusicDatabase.remove_song(self.music, current_song[0])
+        except Exception as e:
+
+            print(f"An error occurred: {str(e)}")
+
+
 
     def remove_all_songs(self):
         self.stop_song()
