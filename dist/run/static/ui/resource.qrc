@@ -1,0 +1,12 @@
+<RCC>
+  <qresource prefix="newPrefix">
+    <file>Create.png</file>
+    <file>Delete.png</file>
+    <file>Next.png</file>
+    <file>Pause.png</file>
+    <file>Play.png</file>
+    <file>Previous.png</file>
+    <file>Remove.png</file>
+    <file>Stop.png</file>
+  </qresource>
+</RCC>
