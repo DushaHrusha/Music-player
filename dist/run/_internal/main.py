@@ -49,7 +49,7 @@ class SimpleMusicPlayer(QMainWindow, Ui_SimpleMusiPlayer):
         self.music = MusicDatabase()
         self.music.insert_blob( 0, 'Мир Горит', 'Oxxxymiron', 'static/img/MusicCover/79a82ce939dbbbe836222cf2352c6e20.1000x1000x1.png','static/files/MusicServer/Мир Горит.mp3')
         self.music.insert_blob(1, 'In The End', 'Linkin Park', 'static/img/MusicCover/LinkinParkIntheEnd.jpg','static/files/MusicServer/linkin-park-in-the-end.mp3')
-        #MusicDatabase.insert_blob(self.music, 2, 'Одинокий каннибал', 'Loqiemean ', 'MusicCover/ab67616d0000b273c525001ff36d4f0492b12ecc.jpg','static/files/MusicServer/loqiemean-odinokij-kannibal-mp3.mp3')
+        self.music.insert_blob( 2, 'Одинокий каннибал', 'Loqiemean ', 'static/img/MusicCover/600x600bf-60.jpg','static/files/MusicServer/loqiemean-odinokij-kannibal-mp3.mp3')
         #MusicDatabase.insert_blob(self.music, 3, 'Frau and Mann', 'Lindemann', 'MusicCover/sddefault.jpg','static/files/MusicServer/Lindemann - Frau and Mann.mp3')
         #MusicDatabase.insert_blob(self.music, 4, 'Сказки', 'Хаски', 'MusicCover/1200x1200bb.jpg','static/files/MusicServer/haski-skazki-mp3.mp3')
         #MusicDatabase.insert_blob(self.music, 5, 'Welcome To Brixton ', 'SR', 'MusicCover/artworks-pCZlcuZ3ZOYg-0-t500x500.jpg','static/files/MusicServer/SR - Welcome To Brixton.mp3')
@@ -81,7 +81,7 @@ class SimpleMusicPlayer(QMainWindow, Ui_SimpleMusiPlayer):
         self.id_next = MusicDatabase.check_id_music(self.music)
         files, _ = QFileDialog.getOpenFileNames(
             self, caption='Add Songs',
-            directory=':\\', filter="Supported Files (*.mp3;*.mpeg;*.ogg;*.m4a;*.MP3;*.wma;*.acc;*.amr)"
+            directory=':\\', filter="Supported Files (*.mp3;*.MP3)"
         )
         if files:
             for file in files:
@@ -92,6 +92,11 @@ class SimpleMusicPlayer(QMainWindow, Ui_SimpleMusiPlayer):
 
                 if audiofile.tag is not None and audiofile.tag.artist:
                     artist = audiofile.tag.artist
+                    if artist.endswith(".mp3"):
+                        artist = artist[:-4]  # Убираем последние 4 символа
+                    else:
+                        artist = artist
+                    print("Первая часть:", artist)
                 else:
                     parts = [part.strip() for part in os.path.basename(file).split('-')]
                     if len(parts) == 2:
@@ -100,8 +105,18 @@ class SimpleMusicPlayer(QMainWindow, Ui_SimpleMusiPlayer):
                     else:
                         print("Строка не содержит символа '-' или содержит больше одного символа '-'")
                         artist = os.path.basename(file)
+                    if artist.endswith(".mp3"):
+                        artist = artist[:-4]  # Убираем последние 4 символа
+                    else:
+                        artist = artist
+                    print("Первая часть:", artist)
                 if audiofile.tag is not None and audiofile.tag.title:
                     title = audiofile.tag.title
+                    if title.endswith(".mp3"):
+                        title = title[:-4]  # Убираем последние 4 символа
+                    else:
+                        title = title
+                    print("Первая часть:", parts[1])
                 else:
                     parts = [part.strip() for part in os.path.basename(file).split('-')]
                     if len(parts) == 2:
@@ -114,7 +129,10 @@ class SimpleMusicPlayer(QMainWindow, Ui_SimpleMusiPlayer):
                     else:
                         print("Строка не содержит символа '-' или содержит больше одного символа '-'")
                         title = os.path.basename(file)
-
+                    if title.endswith(".mp3"):
+                        title = title[:-4]  # Убираем последние 4 символа
+                    else:
+                        title = title
                 images = audiofile.tag.images
                 image_path = ''
                 if audiofile.tag is not None and audiofile.tag.images:
@@ -137,7 +155,7 @@ class SimpleMusicPlayer(QMainWindow, Ui_SimpleMusiPlayer):
                     try:
                         if audiofile.tag.title is None:
                             print(artist)
-                            MusicDatabase.insert_blob(self.music, self.id_next, title, artist , "static/img/MusicCover/Standard.png", file)
+                            MusicDatabase.insert_blob(self.music, self.id_next, title, artist , "static/img/MusicCover/Standard.jpg", file)
                             MusicDatabase.check_id_autors(self.music, artist)
                             self.listWidget.addItem(title)
                             self.current_songs.append(MusicDatabase.read_blob_data(self.music, title))
